@@ -44,9 +44,24 @@ https://www.wedoqa.com/2017/11/allure-integration-in-jenkins/
 
 
 
-#Plugins for Jenkins
+## Plugins for Jenkins
 
 https://wiki.jenkins.io/display/JENKINS/Rebuild+Plugin
 
 https://jenkins.io/doc/pipeline/steps/allure-jenkins-plugin/
 
+## In the shell prompt in jenkins
+
+Add the following to use the ruby in shell prompt and then run.
+```
+#!/bin/bash -l
+rvm list
+ls
+cd <path_to_the_project>
+cucumber #or custom commands
+```
+
+## In Jenkins allure plugin configuration
+
+In the results path give `**/<path_to_your_allure_generated_folder>/` path to the allure.
+Set the report path and allure configuration as `allure-report`.
