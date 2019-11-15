@@ -28,14 +28,42 @@ https://rvm.io/rvm/install
 
 ## Browsers:
 
-https://www.howtoforge.com/tutorial/ubuntu-latest-browsers-firefox-chromium-opera/
+### Chrome Installation:
+The following will install latest chrome in linux
+```
+sudo apt-get install google-chrome-stable
+```
 
+### Uninstall Chrome:
+```
+sudo apt-get purge google-chrome-stable
+rm ~/.config/google-chrome/ -rf
+```
+
+### Install Chrome with specific version:
+```
+wget https://repo.aosc.io/debs/pool/stable/main/g/google-chrome_78.0.3904.70-0_amd64.deb # URL to download the deb file
+sudo dpkg -i google-chrome_78.0.3904.70-0_amd64.deb # name of the downloaded deb file
+sudo apt-get -f install # To resolve the installation with dependencies
+```
 
 
 ## Browser Drivers:
 
-https://tecadmin.net/setup-selenium-chromedriver-on-ubuntu/
+### Install Chrome driver:
+```
+wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip # url to download the latest version
+unzip chromedriver_linux64.zip # name of the downloaded driver file
+sudo mv chromedriver /usr/bin/chromedriver
+sudo chown root:root /usr/bin/chromedriver
+sudo chmod +x /usr/bin/chromedriver
+```
 
+### Uninstalling chrome driver:
+```
+sudo rm -rf /usr/bin/chromedriver
+sudo apt-get purge chromedriver 
+```
 
 
 ## Allure for jenkins:
