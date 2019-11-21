@@ -52,17 +52,19 @@ sudo apt-get -f install # To resolve the installation with dependencies
 
 ### Install Chrome driver:
 ```
-wget https://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip # url to download the latest version
-unzip chromedriver_linux64.zip # name of the downloaded driver file
-sudo mv chromedriver /usr/bin/chromedriver
+version=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+wget -qP "/tmp/" "https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip"
+sudo unzip -o /tmp/chromedriver_linux64.zip -d /home/ubuntu/.rvm/gems/ruby-2.5.1/wrappers/chromedriver # in which ever location you want
+sudo chmod 755 /usr/bin/chromedriver
 sudo chown root:root /usr/bin/chromedriver
 sudo chmod +x /usr/bin/chromedriver
 ```
 
 ### Uninstalling chrome driver:
 ```
-sudo rm -rf /usr/bin/chromedriver
-sudo apt-get purge chromedriver 
+find / -name "chromedriver"
+sudo rm -rf /usr/bin/chromedriver # remove all the paths listed in the above command
+chromedriver -v # should not give any versions
 ```
 
 
