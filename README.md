@@ -95,3 +95,29 @@ cucumber #or custom commands
 
 In the results path give `**/<path_to_your_allure_generated_folder>/` path to the allure.
 Set the report path and allure configuration as `allure-report`.
+
+## Jenkins pipline
+
+To integrate with jenkins pipeline use the following code.
+```
+pipeline {
+  agent { docker { image 'ruby:2.6.1' } }
+  stages {
+    stage('requirements') {
+      steps {
+        sh 'gem install bundler -v 2.0.1'
+      }
+    }
+    stage('build') {
+      steps {
+        sh 'bundle install'
+      }
+    }
+    stage('test') {
+      steps {
+        sh 'cucumber ...' # or custom methods 
+      }   
+    }
+  }
+}
+```
