@@ -1,4 +1,7 @@
 # Cloud Automation Setup
+Complete setup to run UI Automation in cloud.
+
+![alt text](Cloud-Setup.png)
 
 To run web automation suites in the Jenkins, we need to ensure that the following items are preinstalled in the Linux & Jenkins server.
 
