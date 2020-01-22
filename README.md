@@ -5,28 +5,38 @@ Complete setup to run UI Automation in cloud.
 
 To run web automation suites in the Jenkins, we need to ensure that the following items are preinstalled in the Linux & Jenkins server.
 
-1. Need to have Ruby and RVM.
-2. Need to have Bundler gem installed.
-3. Need to have the required browsers in which automation suites are going to run. (eg., Chrome, Firefox, etc.,)
-4. Need to have (Selenium) Drivers corresponding to the browsers. (When Selenium 4.0+ is released this drivers is need not to be installed separately, since it will have internal driver manager.)
-5. Each Jenkins slave (where UI automation is running) should have minimum 2GB ram and minimum 2 core processor with 1.2GHZ processor.
-6. Allure plugin to be added in Jenkins (For reporting purpose)
+1. Need to have Lanugage specific requirements or specific docker images.
+2. Need to have the required browsers in which automation suites are going to run. (eg., Chrome, Firefox, etc.,)
+3. Need to have (Selenium) Drivers corresponding to the browsers. (When Selenium 4.0+ is released this drivers is need not to be installed separately, since it will have internal driver manager.)
+4. Each Jenkins slave (where UI automation is running) should have minimum 2GB ram and minimum 2 core processor with 1.2GHZ processor.
+5. Allure plugin to be added in Jenkins (For reporting purpose)
 
 
 Installation Procedures: (may change over a period of time)
 
-## Ruby: 2.5.3
 
-https://www.ruby-lang.org/en/documentation/installation/
+## Language specfic requirements
 
+### Ruby:
+
+Install latest version of ruby in the linux machine from **[here](https://www.ruby-lang.org/en/documentation/installation/)** and then try installing bundler gem
+```
 gem install bundler
+```
+Once that is done, Install the RVM manager from [here](https://rvm.io/rvm/install)
+
+**(or)**
+
+Get the docker image which is ruby friendly. [Sample docker image](https://hub.docker.com/_/ruby)
 
 
+### Python:
 
-## RVM:
+Install the latest version of python in the linux machine from **[here](https://docs.python-guide.org/starting/install3/linux/)** and then install the pip package.
 
-https://rvm.io/rvm/install
+**(or)**
 
+Get the docker image which is python friendly. [Sample docker image](https://hub.docker.com/_/python)
 
 
 ## Browsers:
@@ -85,6 +95,8 @@ https://jenkins.io/doc/pipeline/steps/allure-jenkins-plugin/
 
 ## In the shell prompt in jenkins
 
+### For ruby
+
 Add the following to use the ruby in shell prompt and then run.
 ```
 #!/bin/bash -l
@@ -94,6 +106,17 @@ cd <path_to_the_project>
 cucumber #or custom commands
 ```
 
+### For Python
+
+Add the following to use the python from the shell prompt and then run.
+```
+#!/usr/bin/python3
+python --version
+cd <path_to_the_project>
+pip3 install -r requirements.txt
+headless=1 pytest -s -v -n 4
+```
+
 ## In Jenkins allure plugin configuration
 
 In the results path give `**/<path_to_your_allure_generated_folder>/` path to the allure.
@@ -101,6 +124,7 @@ Set the report path and allure configuration as `allure-report`.
 
 ## Jenkins pipline
 
+### For Ruby
 To integrate with jenkins pipeline use the following code.
 ```
 pipeline {
@@ -119,6 +143,30 @@ pipeline {
     stage('test') {
       steps {
         sh 'cucumber ...' # or custom methods 
+      }   
+    }
+  }
+}
+```
+
+### For Python
+```
+pipeline {
+  agent { docker { image 'python:3.7.6' } }
+  stages {
+    stage('requirements') {
+      steps {
+        sh 'pip install -r requirements.txt'
+      }
+    }
+    stage('build') {
+      steps {
+        sh '# python build command'
+      }
+    }
+    stage('test') {
+      steps {
+        sh 'pytest ...' # or custom methods 
       }   
     }
   }
